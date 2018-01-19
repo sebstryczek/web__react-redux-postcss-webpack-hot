@@ -1,0 +1,8 @@
+{
+  "name": "web__react-redux-postcss-webpack-hot--no-ssr",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sebstryczek/web__react-redux-postcss-webpack-hot--no-ssr.git",
+  "author": "Sebastian <sebastian@stryczek.pl>",
+  "license": "MIT"
+}
