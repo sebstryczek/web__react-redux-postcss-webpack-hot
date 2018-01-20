@@ -1,7 +1,5 @@
 import * as actions from '../constants/actionTypes';
-
 import firebase from '../../firebase/wrapper';
-firebase.init();
 
 const fetchDataRequest = () => {
   return {

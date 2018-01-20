@@ -1,13 +1,13 @@
 import config from './config';
 import firebase from 'firebase'
 
-
 let db = null;
 
 export default {
   init: () => {
     firebase.initializeApp(config);
     db = firebase.database();
+    return true;
   },
   
   get: async (name = '/') => {
