@@ -89,3 +89,10 @@ yarn add redux react-redux redux-thunk
 8. 
 ```
 yarn add babel-polyfill
+```
+
+9. Replace webpack-dev-server
+```
+yarn add express
+yarn add webpack-dev-middleware webpack-hot-middleware -D
+```

@@ -15,8 +15,9 @@ module.exports = {
     hot: true
   },
   entry: {
-    vendor: [],
+    //vendor: [],
     client: [
+      'webpack-hot-middleware/client',
       'react-hot-loader/patch',
       'babel-polyfill',
       './src/client/index.jsx'
