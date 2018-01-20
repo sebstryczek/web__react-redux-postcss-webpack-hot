@@ -21,6 +21,7 @@ stage-4 - Finished: will be added to the next yearly release.
 */
 yarn add react-hot-loader -D
 /* reload just this components where you did changes */
+css-hot-loader
 ```
 
 3. Install Webpack and Webpack loaderes/plugins

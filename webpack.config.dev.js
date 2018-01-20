@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const port = process.env.PORT || 3000;
 
@@ -34,10 +35,15 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader', options: { modules: true, camelCase: true, sourceMap: true } }
-        ]
+        use: ['css-hot-loader'].concat(
+          ExtractTextPlugin.extract({
+            fallback: "style-loader",
+            use: [
+              { loader: 'css-loader', options: { modules: true, camelCase: true, sourceMap: true } },
+              { loader: 'postcss-loader' }
+            ]
+          })
+        )
       }
     ]
   },
@@ -52,6 +58,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor'],
       minChunks: Infinity
-    })
+    }),
+    new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
   ]
 };
