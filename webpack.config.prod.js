@@ -8,11 +8,9 @@ module.exports = {
   devtool: 'source-map',
   resolve: { extensions: ['.js', '.jsx'] },
   entry: {
-    //vendor: [],
     client: [
-      'react-hot-loader/patch',
       'babel-polyfill',
-      './src/client/index.js'
+      './src/client/index.jsx'
     ]
   },
   output: {
@@ -23,38 +21,21 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js?)$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                importLoaders: 1,
-                camelCase: true,
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                config: {
-                  ctx: {
-                    autoprefixer: {
-                      browsers: 'last 2 versions'
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        })
+        use: ['css-hot-loader'].concat(
+          ExtractTextPlugin.extract({
+            fallback: "style-loader",
+            use: [
+              { loader: 'css-loader', options: { modules: true, camelCase: true, sourceMap: true } },
+              { loader: 'postcss-loader' }
+            ]
+          })
+        )
       }
     ]
   },
@@ -80,9 +61,10 @@ module.exports = {
       name: ['vendor'],
       minChunks: Infinity
     }),
-    new ExtractTextPlugin({
-      filename: 'css/styles.[contenthash].css',
-      allChunks: true
+    new ExtractTextPlugin({ filename: 'css/styles.[contenthash].css', disable: false, allChunks: true }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: module => /node_modules/.test(module.resource)
     })
   ]
 };

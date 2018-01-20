@@ -50,7 +50,7 @@ module.exports = {
       name: ['vendor'],
       minChunks: Infinity
     }),
-    new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
+    new ExtractTextPlugin({ filename: 'styles.css', disable: false, allChunks: true }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: module => /node_modules/.test(module.resource)
