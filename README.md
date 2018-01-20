@@ -77,7 +77,7 @@ yarn add babel-polyfill
 ```
 yarn add webpack -D
 yarn add express webpack-dev-middleware webpack-hot-middleware -D
-yarn add postcss-loader css-loader style-loader babel-loader html-webpack-plugin extract-text-webpack-plugin uglifyjs-webpack-plugin -D
+yarn add postcss-loader css-loader style-loader babel-loader html-webpack-plugin favicons-webpack-plugin extract-text-webpack-plugin uglifyjs-webpack-plugin -D
 yarn add react-hot-loader css-hot-loader -D
 // webpack - main webpack package
 // express - it isnt directly related with webpack, it is necessary to create server for application (instead of webpack-dev-server)
@@ -88,6 +88,7 @@ yarn add react-hot-loader css-hot-loader -D
 // style-loader - CSS to the DOM by injecting a <style> tag
 // babel-loader - apply bebel transpiling
 // html-webpack-plugin - use html file as app template
+// favicons-webpack-plugin - favicons for html
 // extract-text-webpack-plugin - extract styles to css file
 // uglifyjs-webpack-plugin - minify js
 // react-hot-loader - hot reload just this components where you did changes

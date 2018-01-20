@@ -28,6 +28,7 @@
     "css-loader": "^0.28.9",
     "dotenv": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
+    "favicons-webpack-plugin": "^0.0.7",
     "html-webpack-plugin": "^2.30.1",
     "postcss-apply": "^0.8.0",
     "postcss-clean": "^1.1.0",
@@ -48,6 +49,6 @@
     "dev-server": "node ./src/server/dev-server.js",
     "start": "yarn run dev-server",
     "prebuild": "shx rm -rf build",
-    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.prod.js"
+    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.prod.js && shx cp src/server/index.js build/index.js"
   }
 }
