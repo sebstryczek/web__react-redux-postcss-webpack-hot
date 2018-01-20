@@ -5,15 +5,11 @@ import ReactDOM from 'react-dom';
 import { Switch, BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import RenderRoutes from './components/helpers/RenderRoutes';
 import configureStore from './store/configureStore';
-
 import App from './containers/App';
-
 import firebase from '../firebase/wrapper';
 
 const store = configureStore();
-
 const renderApp = () => ReactDOM.render(
   <AppContainer>
     <Provider store={store}>

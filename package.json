@@ -26,6 +26,7 @@
     "cross-env": "^5.1.3",
     "css-hot-loader": "^1.3.5",
     "css-loader": "^0.28.9",
+    "dotenv": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
     "postcss-apply": "^0.8.0",
@@ -40,12 +41,12 @@
     "style-loader": "^0.19.1",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.0",
+    "webpack-dev-middleware": "^2.0.4",
     "webpack-hot-middleware": "^2.21.0"
   },
   "scripts": {
-    "start": "node ./src/server/dev-server.js",
-    "dev": "webpack-dev-server --config webpack.config.dev.js",
+    "dev-server": "node ./src/server/dev-server.js",
+    "start": "yarn run dev-server",
     "prebuild": "shx rm -rf build",
     "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.prod.js"
   }

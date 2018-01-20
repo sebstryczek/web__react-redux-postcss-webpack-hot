@@ -2,20 +2,10 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const port = process.env.PORT || 3000;
-
 module.exports = {
   devtool: 'cheap-eval-source-map',
   resolve: { extensions: ['.js', '.jsx'] },
-  devServer: {
-    host: 'localhost',
-    port: port,
-    historyApiFallback: true,
-    open: false,
-    hot: true
-  },
   entry: {
-    //vendor: [],
     client: [
       'webpack-hot-middleware/client',
       'react-hot-loader/patch',
@@ -61,5 +51,9 @@ module.exports = {
       minChunks: Infinity
     }),
     new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: module => /node_modules/.test(module.resource)
+    })
   ]
 };
