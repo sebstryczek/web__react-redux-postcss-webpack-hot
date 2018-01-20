@@ -10,7 +10,7 @@ module.exports = {
     host: 'localhost',
     port: port,
     historyApiFallback: true,
-    open: true,
+    open: false,
     hot: true
   },
   entry: {
@@ -24,7 +24,6 @@ module.exports = {
   output: {
     publicPath: '/',
     filename: '[name].[hash].js',
-    
   },
   module: {
     rules: [

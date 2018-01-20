@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import routes from '../routes';
 import RenderRoutes from '../components/helpers/RenderRoutes';
 import Page3 from './Page3';
+import Example from '../components/Example';
 
-import {fetchData} from '../actions/fetchDataActions';
+import { fetchData } from '../actions/fetchDataActions';
 
 import './App.css';
 
@@ -24,15 +25,16 @@ class App extends React.Component {
     return (
       <div>
         <h1>App</h1>
+        <Example />
         {
           this.props.data && this.props.data.map(
             (item, i) => <p key={i}>{item}</p>
           )
         }
-        <RenderRoutes routes={this.props.route.routes} />
-        <Route exact path="/page3" component={Page3} />
-        <Route path="/page4" component={() => <h2>Page 4</h2>} />
-        <Route exact path="/page4/sub" component={() => <h2>Page 4 Sub</h2>} />
+        <RenderRoutes routes={routes} />
+        <Route path="/page3/" component={Page3} />
+        <Route path="/page4/" render={() => <h2>Page 4</h2>} />
+        <Route exact path="/page4/sub" render={() => <h2>Page 4 Sub</h2>} />
       </div>
     );
   }

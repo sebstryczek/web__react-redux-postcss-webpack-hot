@@ -4,18 +4,19 @@ import ReactDOM from 'react-dom';
 import { Switch, BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import routes from './routes';
+//import routes from './routes';
 import RenderRoutes from './components/helpers/RenderRoutes';
 import configureStore from './store/configureStore';
 
+import App from './containers/App';
+
 const store = configureStore();
-console.log(store)
 
 const renderApp = () => ReactDOM.render(
   <AppContainer>
     <Provider store={store}>
       <BrowserRouter>
-        <RenderRoutes routes={routes} />
+        <App />
       </BrowserRouter>
     </Provider>
   </AppContainer>

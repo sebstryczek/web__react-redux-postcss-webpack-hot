@@ -6,9 +6,14 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
+  resolve: { extensions: ['.js', '.jsx'] },
   entry: {
     //vendor: [],
-    client: ['react-hot-loader/patch', './src/client/index.js']
+    client: [
+      'react-hot-loader/patch',
+      'babel-polyfill',
+      './src/client/index.js'
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'build'),
