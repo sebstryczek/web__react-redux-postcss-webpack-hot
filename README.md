@@ -1,7 +1,7 @@
 # web__react-redux-postcss-webpack-hot--no-ssr
 
 ## What?
-This is simple react-starer. Yeah, another one! I told you why in the moment.
+This is simple react-starer. Yeah, another one! I will tell you why, in the moment.
 Tech stack:
 1. React
 2. Redux
@@ -10,7 +10,7 @@ Tech stack:
 5. Firebase
 
 ## Why?
-I created it just to learn how this technologies work together.
+I created it just to learn how these technologies work together.
 
 ## How?
 ### Instalation
@@ -77,7 +77,7 @@ yarn add babel-polyfill
 ```
 yarn add webpack -D
 yarn add express webpack-dev-middleware webpack-hot-middleware -D
-yarn add postcss-loader css-loader style-loader babel-loader html-webpack-plugin favicons-webpack-plugin extract-text-webpack-plugin uglifyjs-webpack-plugin -D
+yarn add postcss-loader css-loader style-loader babel-loader html-webpack-plugin favicons-webpack-plugin copy-webpack-plugin clean-webpack-plugin extract-text-webpack-plugin uglifyjs-webpack-plugin -D
 yarn add react-hot-loader css-hot-loader -D
 // webpack - main webpack package
 // express - it isnt directly related with webpack, it is necessary to create server for application (instead of webpack-dev-server)
@@ -89,6 +89,8 @@ yarn add react-hot-loader css-hot-loader -D
 // babel-loader - apply bebel transpiling
 // html-webpack-plugin - use html file as app template
 // favicons-webpack-plugin - favicons for html
+// copy-webpack-plugin - copy files, e.g. production server file
+// clean-webpack-plugin - remove files, e.g. build folder
 // extract-text-webpack-plugin - extract styles to css file
 // uglifyjs-webpack-plugin - minify js
 // react-hot-loader - hot reload just this components where you did changes
@@ -195,12 +197,12 @@ yarn add shx cross-env dotenv -D
 // dotenv - loads environment variables from a .env file into process.env
 "scripts": {
   "dev-server": "node ./src/server/dev-server.js",
-  "start": "npm run dev-server",
-  "prebuild": "shx rm -rf build",
-  "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.prod.js"
+  "build": "webpack -p --config webpack.config.prod.js",
+  "postinstall": "yarn run build",
+  "start": "node ./build/index.js"
 }
 // dev-server - run development server
-// start - run development server with shorter command
-// prebuild - remove previous build
 // build - build app for production
+// postinstall - run build, after packages installation (e.g. on heroku)
+// start - run built app
 ```

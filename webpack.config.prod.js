@@ -1,7 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
@@ -28,15 +30,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['css-hot-loader'].concat(
-          ExtractTextPlugin.extract({
-            fallback: "style-loader",
-            use: [
-              { loader: 'css-loader', options: { modules: true, camelCase: true, sourceMap: true } },
-              { loader: 'postcss-loader' }
-            ]
-          })
-        )
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            { loader: 'css-loader', options: { modules: true, camelCase: true, sourceMap: true } },
+            { loader: 'postcss-loader' }
+          ]
+        })
       }
     ]
   },
@@ -54,6 +54,10 @@ module.exports = {
         }
       }
     }),
+    new CleanWebpackPlugin(['build']),
+    new CopyWebpackPlugin([
+      { from: './src/server/index.js', to: './index.js' }
+    ]),
     new HtmlWebpackPlugin({
       template: './src/client/template/index.html',
       filename: 'public/index.html'
@@ -83,6 +87,17 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: module => /node_modules/.test(module.resource)
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+        'FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
+        'FIREBASE_DATABASE_URL': JSON.stringify(process.env.FIREBASE_DATABASE_URL),
+        'FIREBASE_PROJECT_ID': JSON.stringify(process.env.FIREBASE_PROJECT_ID),
+        'FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
+        'FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
+      }
     })
   ]
 };
