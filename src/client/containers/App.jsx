@@ -31,7 +31,11 @@ class App extends React.Component {
             (item, i) => <p key={i}>{item}</p>
           )
         }
-        <RenderRoutes routes={routes} />
+        {/*
+          REACT HOT RELOAD PROBLEM
+          <RenderRoutes routes={this.props.route.routes} />
+        */}
+        <RenderRoutes routes={routes[0].routes} />
         <Route path="/page3/" component={Page3} />
         <Route path="/page4/" render={() => <h2>Page 4</h2>} />
         <Route exact path="/page4/sub" render={() => <h2>Page 4 Sub</h2>} />

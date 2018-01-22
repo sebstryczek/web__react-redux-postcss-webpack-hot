@@ -3,9 +3,6 @@ import thunk from 'redux-thunk';
 
 import fetchDataReducer from '../reducers/fetchDataReducer';
 
-export default function configureStore() {  
-  return createStore(
-    fetchDataReducer,
-    applyMiddleware(thunk)
-  );
-}
+const initState = {};
+
+export default () => createStore( fetchDataReducer, initState, applyMiddleware(thunk) );

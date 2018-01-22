@@ -56,7 +56,7 @@ yarn add firebase
 
 4. Install Babel
 ```
-yarn add babel-core babel-preset-env babel-preset-react babel-preset-stage-1  -D
+yarn add babel-core babel-preset-env babel-preset-react babel-preset-stage-1 babel-cli -D
 yarn add babel-polyfill
 // babel-core - main babel package
 // babel-preset-env - ES2015+ -> ES5, auto plugins and polyfills for targeted browser or runtime environments.
@@ -70,6 +70,7 @@ yarn add babel-polyfill
    stage-3 - Candidate: complete spec and initial browser implementations.
    stage-4 - Finished: will be added to the next yearly release.
 */
+// babel-cli - write node with ES2015+ (e.g. import)
 // babel-polyfill - emulate a full ES2015+ environment
 ```
 
@@ -77,7 +78,7 @@ yarn add babel-polyfill
 ```
 yarn add webpack -D
 yarn add express webpack-dev-middleware webpack-hot-middleware -D
-yarn add postcss-loader css-loader style-loader babel-loader html-webpack-plugin favicons-webpack-plugin copy-webpack-plugin clean-webpack-plugin extract-text-webpack-plugin uglifyjs-webpack-plugin -D
+yarn add postcss-loader css-loader style-loader babel-loader html-webpack-plugin favicons-webpack-plugin extract-text-webpack-plugin uglifyjs-webpack-plugin -D
 yarn add react-hot-loader css-hot-loader -D
 // webpack - main webpack package
 // express - it isnt directly related with webpack, it is necessary to create server for application (instead of webpack-dev-server)
@@ -89,8 +90,6 @@ yarn add react-hot-loader css-hot-loader -D
 // babel-loader - apply bebel transpiling
 // html-webpack-plugin - use html file as app template
 // favicons-webpack-plugin - favicons for html
-// copy-webpack-plugin - copy files, e.g. production server file
-// clean-webpack-plugin - remove files, e.g. build folder
 // extract-text-webpack-plugin - extract styles to css file
 // uglifyjs-webpack-plugin - minify js
 // react-hot-loader - hot reload just this components where you did changes
@@ -115,13 +114,17 @@ yarn add postcss-import postcss-css-variables postcss-apply postcss-nesting post
   "presets": [["env", { "modules": false }], "react", "stage-1"],
   "plugins": ["react-hot-loader/babel"],
   "env": {
+    "node": {
+      "presets": ["env", "react", "stage-1"]
+    },
     "test": {
-      "presets": [["env"], "react", "stage-1"]
+      "presets": ["env", "react", "stage-1"]
     }
   }
 }
 // Use downloaded babel presets (ES2015+ -> ES5, react/jsx, experimental features)
 // Use downloaded babel plugins (reload only changed components)
+// Settings for build server / run dev server
 // Settings for tests (need to enable modules)
 */
 ```
@@ -208,9 +211,10 @@ yarn add enzyme enzyme-adapter-react-16 jest react-test-renderer redux-mock-stor
 // react-test-renderer - experimental React renderer that can be used to render React components to pure JavaScript objects, without depending on the DOM or a native mobile environment
 // redux-mock-store - mock store for testing your redux async action creators and middleware
 "scripts": {
-  "test": "jest",
-  "dev-server": "node ./src/server/dev-server.js",
+  "dev-server": "cross-env BABEL_ENV=node babel-node ./src/server/dev-server.js",
+  "prebuild": "shx rm -rf ./build",
   "build": "webpack -p --config webpack.config.prod.js",
+  "postbuild": "cross-env BABEL_ENV=node babel -o ./build/index.js ./src/server/index.js",
   "postinstall": "yarn run build",
   "start": "node ./build/index.js"
 },
@@ -221,7 +225,9 @@ yarn add enzyme enzyme-adapter-react-16 jest react-test-renderer redux-mock-stor
 }
 // test - run tests
 // dev-server - run development server
-// build - build app for production
+// prebuild - remove old build
+// build - build react app for production
+// postbuild - build node server for production
 // postinstall - build app before start (e.g. on heroku)
 // start - run built app
 // moduleNameMapper - map css imports to mock function
