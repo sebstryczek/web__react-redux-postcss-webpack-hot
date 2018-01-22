@@ -113,10 +113,16 @@ yarn add postcss-import postcss-css-variables postcss-apply postcss-nesting post
 /*
 {
   "presets": [["env", { "modules": false }], "react", "stage-1"],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": ["react-hot-loader/babel"],
+  "env": {
+    "test": {
+      "presets": [["env"], "react", "stage-1"]
+    }
+  }
 }
 // Use downloaded babel presets (ES2015+ -> ES5, react/jsx, experimental features)
 // Use downloaded babel plugins (reload only changed components)
+// Settings for tests (need to enable modules)
 */
 ```
 
@@ -192,17 +198,31 @@ module.exports = {
 9. Others
 ```
 yarn add shx cross-env dotenv -D
+yarn add enzyme enzyme-adapter-react-16 jest react-test-renderer redux-mock-store -D
 // shx - cross-platform commands in npm package scripts
 // cross-env - cross-platform environment variables
 // dotenv - loads environment variables from a .env file into process.env
+// enzyme - testing utility for React that makes it easier to assert, manipulate, and traverse 
+// enzyme-adapter-react-16 - Adapter corresponding to the version of react
+// jest - testing platform
+// react-test-renderer - experimental React renderer that can be used to render React components to pure JavaScript objects, without depending on the DOM or a native mobile environment
+// redux-mock-store - mock store for testing your redux async action creators and middleware
 "scripts": {
+  "test": "jest",
   "dev-server": "node ./src/server/dev-server.js",
   "build": "webpack -p --config webpack.config.prod.js",
   "postinstall": "yarn run build",
   "start": "node ./build/index.js"
+},
+"jest": {
+  "moduleNameMapper": {
+    "(.*\\.css$)": "<rootDir>/src/client/__mocks__/stylesMock.js"
+  }
 }
+// test - run tests
 // dev-server - run development server
 // build - build app for production
-// postinstall - run build, after packages installation (e.g. on heroku)
+// postinstall - build app before start (e.g. on heroku)
 // start - run built app
+// moduleNameMapper - map css imports to mock function
 ```
