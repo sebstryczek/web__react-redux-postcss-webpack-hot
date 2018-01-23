@@ -2,18 +2,19 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import connectHistoryApiFallback from 'connect-history-api-fallback';
 
 import webpackConfig from '../../webpack.config.dev';
 
 const app = express();
 const webpackCompiler = webpack(webpackConfig);
 
+app.use(connectHistoryApiFallback());
 app.use(webpackDevMiddleware(webpackCompiler, {
   noInfo: true,
   publicPath: webpackConfig.output.publicPath,
   stats: { assets: false, colors: true, version: false, hash: false, timings: false, chunks: false, chunkModules: false, 'errors-only': true }
 }));
-
 app.use(webpackHotMiddleware(webpackCompiler));
 
 webpackCompiler.plugin('done', (stats) => {

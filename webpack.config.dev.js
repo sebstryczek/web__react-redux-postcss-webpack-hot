@@ -54,14 +54,15 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      template: './src/client/template/index.html'
+      template: './src/client/template/index.html',
+      filename: 'index.html'
     }),
     new FaviconsWebpackPlugin({
       logo: './src/client/template/favicon.png',
       prefix: 'public/images/icons-[hash]/',
       icons: { android: true, appleIcon: true, appleStartup: true, coast: false, favicons: true, firefox: true, opengraph: false, twitter: false, yandex: false, windows: false }
     }),
-    new ExtractTextPlugin({ filename: 'styles.css', disable: false, allChunks: true }),
+    new ExtractTextPlugin({ filename: 'styles.[contenthash].css', disable: false, allChunks: true }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor'],
       minChunks: module => /node_modules/.test(module.resource)

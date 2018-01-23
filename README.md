@@ -80,6 +80,7 @@ yarn add webpack -D
 yarn add express webpack-dev-middleware webpack-hot-middleware -D
 yarn add postcss-loader css-loader style-loader babel-loader html-webpack-plugin favicons-webpack-plugin extract-text-webpack-plugin uglifyjs-webpack-plugin -D
 yarn add react-hot-loader css-hot-loader -D
+yarn add connect-history-api-fallback -D
 // webpack - main webpack package
 // express - it isnt directly related with webpack, it is necessary to create server for application (instead of webpack-dev-server)
 // webpack-dev-middleware - necessary for dev-server (no files on disc, watch files)
@@ -94,6 +95,7 @@ yarn add react-hot-loader css-hot-loader -D
 // uglifyjs-webpack-plugin - minify js
 // react-hot-loader - hot reload just this components where you did changes
 // css-hot-loader - reload css (when extracted to file by ExtractTextPlugin) on change
+// connect-history-api-fallback - make url address works
 ```
 
 6. Install PostCSS plugins

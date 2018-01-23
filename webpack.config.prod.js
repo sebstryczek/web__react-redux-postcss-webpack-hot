@@ -20,9 +20,9 @@ module.exports = [
       ]
     },
     output: {
+      publicPath: '/',
       path: path.resolve(__dirname, 'build'),
-      filename: 'public/js/[name].[hash].js',
-      publicPath: './'
+      filename: 'public/js/[name].[hash].js'
     },
     module: {
       rules: [
@@ -52,7 +52,7 @@ module.exports = [
     plugins: [
       new HtmlWebpackPlugin({
         template: './src/client/template/index.html',
-        filename: 'public/index.html'
+        filename: '_index.html'
       }),
       new FaviconsWebpackPlugin({
         logo: './src/client/template/favicon.png',
@@ -100,7 +100,6 @@ module.exports = [
     output: {
       path: path.resolve(__dirname, 'build'),
       filename: '[name].js',
-      publicPath: './'
     },
     module: {
       rules: [
