@@ -111,9 +111,13 @@ yarn add postcss-import postcss-css-variables postcss-apply postcss-nesting post
 ```
 /*
 {
-  "presets": [["env", { "modules": false }], "react", "stage-1"],
-  "plugins": ["react-hot-loader/babel"],
   "env": {
+    "web": {
+      "presets": [
+        ["env", { "modules": false }], "react", "stage-1"
+      ],
+      "plugins": ["react-hot-loader/babel"]
+    },
     "node": {
       "presets": ["env", "react", "stage-1"]
     },
@@ -122,6 +126,7 @@ yarn add postcss-import postcss-css-variables postcss-apply postcss-nesting post
     }
   }
 }
+// Settings for client
 // Use downloaded babel presets (ES2015+ -> ES5, react/jsx, experimental features)
 // Use downloaded babel plugins (reload only changed components)
 // Settings for build server / run dev server
@@ -131,9 +136,13 @@ yarn add postcss-import postcss-css-variables postcss-apply postcss-nesting post
 
 8. Config Webpack - webpack.config.js
 ```
+const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
   devtool: 'cheap-eval-source-map', // - https://webpack.js.org/configuration/devtool/
@@ -144,7 +153,7 @@ module.exports = {
       'webpack-hot-middleware/client', // - browser hot reload (dev server)
       'react-hot-loader/patch', // - activate HMR for React
       'babel-polyfill',
-      './src/client/index.jsx'
+      path.resolve(__dirname, 'src/client/index.jsx')
     ]
   },
   output: {
@@ -156,7 +165,12 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: {
+          loader: 'babel-loader',
+          options: {
+            forceEnv: 'web' // select proper babel configuration without enviroment variables
+          }
+        }
       },
       {
         test: /\.css$/,
@@ -185,15 +199,23 @@ module.exports = {
     new webpack.NamedModulesPlugin(), // enable HMR globally
     new webpack.HotModuleReplacementPlugin(), // prints more readable module names in the browser terminal on HMR updates
     new webpack.NoEmitOnErrorsPlugin(), // do not emit compiled assets that include errors
-    new HtmlWebpackPlugin({
-      template: './src/client/template/index.html',
-      favicon: './src/client/template/favicon.png'
-    }),
+    new HtmlWebpackPlugin({ template: './src/client/template/index.html' }),
+    new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor'],
       minChunks: Infinity
     }),
-    new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        FIREBASE_API_KEY: JSON.stringify(process.env.FIREBASE_API_KEY),
+        FIREBASE_AUTH_DOMAIN: JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
+        FIREBASE_DATABASE_URL: JSON.stringify(process.env.FIREBASE_DATABASE_URL),
+        FIREBASE_PROJECT_ID: JSON.stringify(process.env.FIREBASE_PROJECT_ID),
+        FIREBASE_STORAGE_BUCKET: JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
+        FIREBASE_MESSAGING_SENDER_ID: JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
+      }
+    })
   ]
 };
 ```
@@ -211,12 +233,12 @@ yarn add enzyme enzyme-adapter-react-16 jest react-test-renderer redux-mock-stor
 // react-test-renderer - experimental React renderer that can be used to render React components to pure JavaScript objects, without depending on the DOM or a native mobile environment
 // redux-mock-store - mock store for testing your redux async action creators and middleware
 "scripts": {
+  "test": "jest",
   "dev-server": "cross-env BABEL_ENV=node babel-node ./src/server/dev-server.js",
   "prebuild": "shx rm -rf ./build",
   "build": "webpack -p --config webpack.config.prod.js",
-  "postbuild": "cross-env BABEL_ENV=node babel -o ./build/index.js ./src/server/index.js",
   "postinstall": "yarn run build",
-  "start": "node ./build/index.js"
+  "start": "node ./build/server.js"
 },
 "jest": {
   "moduleNameMapper": {
@@ -226,9 +248,8 @@ yarn add enzyme enzyme-adapter-react-16 jest react-test-renderer redux-mock-stor
 // test - run tests
 // dev-server - run development server
 // prebuild - remove old build
-// build - build react app for production
-// postbuild - build node server for production
-// postinstall - build app before start (e.g. on heroku)
+// build - build react app and node server for production
+// postinstall - build app after install (e.g. on heroku)
 // start - run built app
 // moduleNameMapper - map css imports to mock function
 ```
