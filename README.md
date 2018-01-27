@@ -1,7 +1,7 @@
 # web__react-redux-postcss-webpack-hot--no-ssr
 
 ## What?
-This is simple react-starer. Yeah, another one! I will tell you why, in the moment.
+This is a simple react-starer. Yeah, another one! I will tell you why, in the moment.
 Tech stack:
 1. React
 2. Redux
@@ -29,7 +29,7 @@ yarn run build
 ```
 
 ## Step by step
-This is list of steps, to create starter like this. I wrote it to consolidate knowledge about babel and webpack configuration.
+This is the list of steps, to create starter like this. I wrote it to consolidate knowledge about babel and webpack configuration.
 
 1. Install React:
 ```
